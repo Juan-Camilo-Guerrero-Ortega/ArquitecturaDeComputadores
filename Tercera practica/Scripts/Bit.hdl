@@ -1,0 +1,58 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/Bit.hdl
+
+/**
+
+ * 1-bit register:
+
+ * If load[t] == 1 then out[t+1] = in[t]
+
+ *                 else out does not change (out[t+1] = out[t])
+
+ */
+
+
+
+CHIP Bit {
+
+    // Para implementar el chip Bit es necesario de un Mux
+
+    // Y un Flip-Flop tipo D, con el Mux decidimos si
+
+    // dada la entrada load, actualizamos la salida out
+
+    // o conservamos la informacion anterior usando el DFF
+
+    // Tenemos como entrada 'in','load'
+
+    // junto a una variable temporal 'temp' la cual
+
+    // se usará en el chip Mux siendo una entrada al igual que 'in'
+
+    // y 'load' será el selector, el out del Mux ('m') se pasa
+
+    // como entrada al Data Flip-flop junto con la variable temporal
+
+    // dandonos la salida out
+
+
+
+    IN in, load;
+
+    OUT out;        
+
+
+
+    PARTS:
+
+    // Put your code here:
+
+
+
+    Mux(a=temp, b=in, sel=load, out=m);
+
+    DFF(in=m, out=temp, out=out);
+
+}

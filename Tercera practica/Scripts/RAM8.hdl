@@ -1,0 +1,90 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/RAM8.hdl
+
+/**
+
+ * Memory of 8 registers, each 16 bit-wide. Out holds the value
+
+ * stored at the memory location specified by address. If load==1, then 
+
+ * the in value is loaded into the memory location specified by address 
+
+ * (the loaded value will be emitted to out from the next time step onward).
+
+ */
+
+ // Se tiene como entradas dos vectores 'in' tamaño 16 y
+
+ // 'address' tamaño 3 y una entrada load, siendo 'address'
+
+ // los selectores de los Chip DMux8Way y Mux8Way16;
+
+ // primero pasamos los datos por el DMux8Way el cual nos dará 
+
+ // el valor de los load para los siguientes ocho Chip Registrer
+
+ // y estos Chip sus 'out' seran las entradas para el chip Mux8Way16
+
+ // hallando  este ultimo el 'out' esperado
+
+
+
+CHIP RAM8 {
+
+    // En la RAM8 tenemos 8 registros cada uno de 16 Bits
+
+    // cada registro esta asociado a una direccion en el arreglo address
+
+    // con un demultiplexor 8 way seleccionamos cual Registro actualizaremos
+
+    // seguido de esto ejecutamos los 8 Registros en donde uno de ellos
+
+    // uno de ellos tendra su entrada load = 1 dada la salida del DMux8Way
+
+    // finalmente usamos un Mux8Way16 para seleccionar cual de las 8 salidas
+
+    // de los registros retornaremos, siendo este el mismo señalado por la 
+
+    // entrada address
+
+
+
+    IN in[16], load, address[3];
+
+    OUT out[16];
+
+
+
+    PARTS:
+
+    // Put your code here:
+
+    DMux8Way(in=load,sel=address,a=p0,b=p1,c=p2,d=p3,e=p4,f=p5,g=p6,h=p7);
+
+
+
+    Register(in=in,load=p0,out=out0);
+
+    Register(in=in,load=p1,out=out1);
+
+    Register(in=in,load=p2,out=out2);
+
+    Register(in=in,load=p3,out=out3);
+
+    Register(in=in,load=p4,out=out4);
+
+    Register(in=in,load=p5,out=out5);
+
+    Register(in=in,load=p6,out=out6);
+
+    Register(in=in,load=p7,out=out7);
+
+
+
+    Mux8Way16(a=out0, b=out1, c=out2, d=out3, e=out4, f=out5, g=out6, h=out7, sel=address, out=out);
+
+
+
+}
